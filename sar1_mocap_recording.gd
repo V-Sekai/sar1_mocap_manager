@@ -85,7 +85,7 @@ func write_transform(p_transform: Transform) -> void:
 	file.store_real(p_transform.origin.y)
 	file.store_real(p_transform.origin.z)
 	
-	var quat: Quat = Quat(p_transform.basis)
+	var quat: Quat = p_transform.basis.get_rotation_quat()
 	file.store_real(quat.x)
 	file.store_real(quat.y)
 	file.store_real(quat.z)
