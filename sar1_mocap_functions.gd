@@ -46,25 +46,23 @@ static func create_scene_for_mocap_recording(p_mocap_recording: MocapRecording) 
 	animation_player.root_node = animation_player.get_path_to(root)
 	
 	# Setup animation
-	var current_idx: int = 0
 	var animation: Animation = Animation.new()
 	
-	animation_player.add_animation("MocapAnimation", animation)
+	assert(animation_player.add_animation("MocapAnimation", animation) == OK)
 	
 	animation.set_name("MocapAnimation")
-	animation.add_track(Animation.TYPE_TRANSFORM)
-	animation.track_set_path(current_idx, root.get_path_to(root))
+	var root_track_id: int = animation.add_track(Animation.TYPE_TRANSFORM)
+	animation.track_set_path(root_track_id, root.get_path_to(root))
 	
 	# Add tracks for tracker data
 	for tracker_point_name in mocap_constants_const.TRACKER_POINT_NAMES:
-		current_idx += 1
 		var tracker: Position3D = Position3D.new()
 		tracker.set_name(tracker_point_name)
 		root.add_child(tracker)
 		tracker.set_owner(mocap_scene)
 		
-		animation.add_track(Animation.TYPE_TRANSFORM)
-		animation.track_set_path(current_idx, root.get_path_to(tracker))
+		var track_id: int = animation.add_track(Animation.TYPE_TRANSFORM)
+		animation.track_set_path(track_id, root.get_path_to(tracker))
 	
 	# Setup timestep based on mocap data's FPS
 	var timestep: float = 1.0 / p_mocap_recording.fps
@@ -74,11 +72,11 @@ static func create_scene_for_mocap_recording(p_mocap_recording: MocapRecording) 
 	
 	# Write the mocap data to the animation file
 	for frame in p_mocap_recording.frames:
-		current_idx = 0
+		var current_idx: int = 0
 		
 		for transform in frame:
 			if current_idx < animation.get_track_count():
-				animation.transform_track_insert_key(current_idx, current_time, transform.origin, transform.basis, Vector3(1.0, 1.0, 1.0))
+				var _key_idx: int = animation.transform_track_insert_key(current_idx, current_time, transform.origin, transform.basis, Vector3(1.0, 1.0, 1.0))
 			else:
 				printerr("Animation mocap data track mismatch")
 			current_idx += 1

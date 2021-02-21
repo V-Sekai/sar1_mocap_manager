@@ -81,9 +81,9 @@ func read_mocap_header() -> bool:
 	
 func write_transform(p_transform: Transform) -> void:
 	var origin: Vector3 = p_transform.origin
-	file.store_real(p_transform.origin.x)
-	file.store_real(p_transform.origin.y)
-	file.store_real(p_transform.origin.z)
+	file.store_real(origin.x)
+	file.store_real(origin.y)
+	file.store_real(origin.z)
 	
 	var quat: Quat = p_transform.basis.get_rotation_quat()
 	file.store_real(quat.x)
@@ -97,12 +97,12 @@ func write_transform_array(p_transform_array: Array) -> void:
 		write_transform(transform)
 		
 func read_transform() -> Transform:
-	var origin: Vector3
+	var origin: Vector3 = Vector3()
 	origin.x = file.get_real()
 	origin.y = file.get_real()
 	origin.z = file.get_real()
 	
-	var quat: Quat
+	var quat: Quat = Quat()
 	quat.x = file.get_real()
 	quat.y = file.get_real()
 	quat.z = file.get_real()
@@ -114,7 +114,7 @@ func read_transform_array() -> Array:
 	var count: int  = file.get_32()
 	var transform_array: Array = []
 	
-	for i in range(0, count):
+	for _i in range(0, count):
 		var transform: Transform = read_transform()
 		transform_array.push_back(transform)
 		
@@ -122,7 +122,7 @@ func read_transform_array() -> Array:
 	
 func parse_file() -> bool:
 	if file:
-		if read_mocap_header() == true:
+		if read_mocap_header():
 			frames = []
 			while !file.eof_reached():
 				var transform_array: Array = read_transform_array()

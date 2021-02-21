@@ -30,14 +30,16 @@ func get_import_options(i):
 
 func import(source_file, save_path, options, platform_variants, gen_files):
 	var mocap_recording = MocapRecording.new(source_file)
-	mocap_recording.open_file_read()
-	mocap_recording.parse_file()
-	mocap_recording.close_file()
+	if mocap_recording.open_file_read() == OK:
+		mocap_recording.parse_file()
+		mocap_recording.close_file()
 
-	var packed_scene: PackedScene = mocap_functions_const.create_packed_scene_for_mocap_recording(mocap_recording)
-	if packed_scene:
-		var filename: String = save_path + "." + get_save_extension()
-		ResourceSaver.save(filename, packed_scene)
-		return OK
+		var packed_scene: PackedScene = mocap_functions_const.create_packed_scene_for_mocap_recording(mocap_recording)
+		if packed_scene:
+			var filename: String = save_path + "." + get_save_extension()
+			ResourceSaver.save(filename, packed_scene)
+			return OK
+	else:
+		printerr("Could not open mocap file for reading")
 		
 	return FAILED
