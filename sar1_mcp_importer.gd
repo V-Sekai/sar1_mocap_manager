@@ -1,32 +1,32 @@
-tool
+@tool
 extends EditorImportPlugin
 
 const mocap_functions_const = preload("sar1_mocap_functions.gd")
 const mocap_constants_const = preload("sar1_mocap_constants.gd")
 
 func get_importer_name():
-    return "mcp_importer"
+	return "mcp_importer"
 
 func get_visible_name():
-    return "Mocap Data"
+	return "Mocap Data"
 
 func get_recognized_extensions():
-    return ["mcp"]
+	return ["mcp"]
 
 func get_save_extension():
-    return "scn"
+	return "scn"
 
 func get_resource_type():
-    return "PackedScene"
+	return "PackedScene"
 
 func get_preset_count():
-    return 1
+	return 1
 
 func get_preset_name(i):
-    return "Default"
+	return "Default"
 
 func get_import_options(i):
-    return []
+	return []
 
 func import(source_file, save_path, options, platform_variants, gen_files):
 	var mocap_recording = MocapRecording.new(source_file)

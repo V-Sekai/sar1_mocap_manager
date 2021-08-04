@@ -1,4 +1,4 @@
-tool
+@tool
 
 const MOCAP_VERSION = 0
 const MOCAP_DIR = "mocap"

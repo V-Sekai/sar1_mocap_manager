@@ -1,6 +1,6 @@
-tool
-class_name MocapRecording
-extends Reference
+@tool
+
+class_name MocapRecording extends RefCounted
 
 const mocap_constants_const = preload("sar1_mocap_constants.gd")
 
@@ -69,7 +69,7 @@ func write_mocap_header() -> void:
 	file.store_32(fps)
 	
 func read_mocap_header() -> bool:
-	var buffer: PoolByteArray = file.get_buffer(mocap_constants_const.HEADER.length())
+	var buffer: PackedByteArray = file.get_buffer(mocap_constants_const.HEADER.length())
 	var header: String = buffer.get_string_from_ascii()
 	if header == mocap_constants_const.HEADER:
 		version = file.get_8()
@@ -79,13 +79,13 @@ func read_mocap_header() -> bool:
 		
 	return false
 	
-func write_transform(p_transform: Transform) -> void:
+func write_transform(p_transform: Transform3D) -> void:
 	var origin: Vector3 = p_transform.origin
 	file.store_real(origin.x)
 	file.store_real(origin.y)
 	file.store_real(origin.z)
 	
-	var quat: Quat = p_transform.basis.get_rotation_quat()
+	var quat: Quaternion = p_transform.basis.get_rotation_quaternion()
 	file.store_real(quat.x)
 	file.store_real(quat.y)
 	file.store_real(quat.z)
@@ -96,26 +96,26 @@ func write_transform_array(p_transform_array: Array) -> void:
 	for transform in p_transform_array:
 		write_transform(transform)
 		
-func read_transform() -> Transform:
+func read_transform() -> Transform3D:
 	var origin: Vector3 = Vector3()
 	origin.x = file.get_real()
 	origin.y = file.get_real()
 	origin.z = file.get_real()
 	
-	var quat: Quat = Quat()
+	var quat: Quaternion = Quaternion()
 	quat.x = file.get_real()
 	quat.y = file.get_real()
 	quat.z = file.get_real()
 	quat.w = file.get_real()
 	
-	return Transform(quat, origin)
+	return Transform3D(quat, origin)
 	
 func read_transform_array() -> Array:
 	var count: int  = file.get_32()
 	var transform_array: Array = []
 	
 	for _i in range(0, count):
-		var transform: Transform = read_transform()
+		var transform: Transform3D = read_transform()
 		transform_array.push_back(transform)
 		
 	return transform_array

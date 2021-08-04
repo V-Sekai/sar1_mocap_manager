@@ -1,4 +1,4 @@
-tool
+@tool
 
 const mocap_constants_const = preload("sar1_mocap_constants.gd")
 
@@ -27,8 +27,8 @@ static func _incremental_mocap_file_path(p_info: Dictionary) -> Dictionary:
 		
 	return {"error":err, "path":path}
 
-static func create_scene_for_mocap_recording(p_mocap_recording: MocapRecording) -> Spatial:
-	var mocap_scene: Spatial = Spatial.new()
+static func create_scene_for_mocap_recording(p_mocap_recording: MocapRecording) -> Node3D:
+	var mocap_scene: Node3D = Node3D.new()
 	mocap_scene.set_name("MocapScene")
 	
 	# Setup animation player
@@ -38,7 +38,7 @@ static func create_scene_for_mocap_recording(p_mocap_recording: MocapRecording) 
 	animation_player.set_owner(mocap_scene)
 	
 	# Setup animation root
-	var root: Spatial = Spatial.new()
+	var root: Node3D = Node3D.new()
 	root.set_name("Root")
 	mocap_scene.add_child(root)
 	root.set_owner(mocap_scene)
@@ -88,7 +88,7 @@ static func create_scene_for_mocap_recording(p_mocap_recording: MocapRecording) 
 	return mocap_scene
 	
 static func create_packed_scene_for_mocap_recording(p_mocap_recording: MocapRecording) -> PackedScene:
-	var mocap_scene: Spatial = create_scene_for_mocap_recording(p_mocap_recording)
+	var mocap_scene: Node3D = create_scene_for_mocap_recording(p_mocap_recording)
 	if mocap_scene:
 		var packed_scene: PackedScene = PackedScene.new()
 		var result: int = packed_scene.pack(mocap_scene)

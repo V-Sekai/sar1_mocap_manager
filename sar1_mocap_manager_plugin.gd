@@ -1,4 +1,4 @@
-tool
+@tool
 extends EditorPlugin
 
 var editor_interface: EditorInterface = null
@@ -11,7 +11,7 @@ var singleton_table = [
 	{"singleton_name":"MocapManager", "singleton_path":"res://addons/sar1_mocap_manager/sar1_mocap_manager.gd"},
 ]
 
-func _init() -> void:
+func _init():
 	print("Initialising MocapManager plugin")
 
 
@@ -21,7 +21,7 @@ func _notification(p_notification: int):
 			print("Destroying MocapManager plugin")
 
 
-func get_name() -> String:
+func _get_plugin_name() -> String:
 	return "Sar1MocapManager"
 
 
@@ -29,17 +29,15 @@ func _enter_tree() -> void:
 	editor_interface = get_editor_interface()
 	
 
-	if ! Engine.is_editor_hint():
-		for singleton in singleton_table:
-			add_autoload_singleton(singleton["singleton_name"], singleton["singleton_path"])
-	else:
+	for singleton in singleton_table:
+		add_autoload_singleton(singleton["singleton_name"], singleton["singleton_path"])
+	if Engine.is_editor_hint():
 		mcp_importer = mcp_importer_const.new()
 		add_import_plugin(mcp_importer)
 
 func _exit_tree() -> void:
-	if ! Engine.is_editor_hint():
-		for singleton in singleton_table.invert():
-			remove_autoload_singleton(singleton["singleton_name"])
-	else:
+	if Engine.is_editor_hint():
 		remove_import_plugin(mcp_importer)
 		mcp_importer = null
+	for singleton in singleton_table.reverse():
+		remove_autoload_singleton(singleton["singleton_name"])

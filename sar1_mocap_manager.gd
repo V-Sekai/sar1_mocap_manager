@@ -1,4 +1,4 @@
-tool
+@tool
 extends Node
 
 const mocap_functions_const = preload("sar1_mocap_functions.gd")
@@ -6,9 +6,9 @@ const mocap_constants_const = preload("sar1_mocap_constants.gd")
 
 const USER_PREFERENCES_SECTION_NAME = "mocap"
 
-var set_settings_value_callback: FuncRef = FuncRef.new()
-var get_settings_value_callback: FuncRef = FuncRef.new()
-var save_settings_callback: FuncRef = FuncRef.new()
+var set_settings_value_callback: Callable = Callable()
+var get_settings_value_callback: Callable = Callable()
+var save_settings_callback: Callable = Callable()
 
 var recording_enabled = false
 
@@ -30,14 +30,14 @@ func start_recording(p_fps: int) -> MocapRecording:
 		
 func set_settings_value(p_key: String, p_value) -> void:
 	if set_settings_value_callback.is_valid():
-		set_settings_value_callback.call_func(USER_PREFERENCES_SECTION_NAME, p_key, p_value)
+		set_settings_value_callback.call(USER_PREFERENCES_SECTION_NAME, p_key, p_value)
 	
 func set_settings_values():
 	set_settings_value("recording_enabled", recording_enabled)
 	
 func get_settings_value(p_key: String, p_type: int, p_default):
 	if get_settings_value_callback.is_valid():
-		return get_settings_value_callback.call_func(USER_PREFERENCES_SECTION_NAME, p_key, p_type, p_default)
+		return get_settings_value_callback.call(USER_PREFERENCES_SECTION_NAME, p_key, p_type, p_default)
 	else:
 		return p_default
 	
@@ -48,13 +48,13 @@ func get_settings_values() -> void:
 	recording_enabled = get_settings_value("recording_enabled", TYPE_BOOL, recording_enabled)
 	
 func assign_set_settings_value_funcref(p_instance: Object, p_function: String) -> void:
-	set_settings_value_callback = funcref(p_instance, p_function)
+	set_settings_value_callback = Callable(p_instance, p_function)
 	
 func assign_get_settings_value_funcref(p_instance: Object, p_function: String) -> void:
-	get_settings_value_callback = funcref(p_instance, p_function)
+	get_settings_value_callback = Callable(p_instance, p_function)
 	
 func assign_save_settings_funcref(p_instance: Object, p_function: String) -> void:
-	save_settings_callback = funcref(p_instance, p_function)
+	save_settings_callback = Callable(p_instance, p_function)
 	
 func _ready():
 	if Directory.new().make_dir("user://mocap") != OK:
