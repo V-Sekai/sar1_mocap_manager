@@ -39,5 +39,7 @@ func _exit_tree() -> void:
 	if Engine.is_editor_hint():
 		remove_import_plugin(mcp_importer)
 		mcp_importer = null
-	for singleton in singleton_table.reverse():
+	var sr: Array = singleton_table.duplicate()
+	sr.reverse()
+	for singleton in sr:
 		remove_autoload_singleton(singleton["singleton_name"])
