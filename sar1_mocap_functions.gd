@@ -34,13 +34,13 @@ static func create_scene_for_mocap_recording(p_mocap_recording: MocapRecording) 
 	# Setup animation player
 	var animation_player: AnimationPlayer = AnimationPlayer.new()
 	animation_player.set_name("AnimationPlayer")
-	mocap_scene.add_child(animation_player)
+	mocap_scene.add_child(animation_player, true)
 	animation_player.set_owner(mocap_scene)
 	
 	# Setup animation root
 	var root: Node3D = Node3D.new()
 	root.set_name("Root")
-	mocap_scene.add_child(root)
+	mocap_scene.add_child(root, true)
 	root.set_owner(mocap_scene)
 	
 	animation_player.root_node = animation_player.get_path_to(root)
@@ -58,7 +58,7 @@ static func create_scene_for_mocap_recording(p_mocap_recording: MocapRecording) 
 	for tracker_point_name in mocap_constants_const.TRACKER_POINT_NAMES:
 		var tracker: Position3D = Position3D.new()
 		tracker.set_name(tracker_point_name)
-		root.add_child(tracker)
+		root.add_child(tracker, true)
 		tracker.set_owner(mocap_scene)
 		
 		var track_id: int = animation.add_track(Animation.TYPE_TRANSFORM)
