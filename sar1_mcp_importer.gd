@@ -25,7 +25,7 @@ func _get_preset_count():
 func _get_preset_name(i):
 	return "Default"
 
-func _get_import_options(i):
+func _get_import_options(option : String, i : int) -> Array:
 	return []
 
 func _import(source_file, save_path, options, platform_variants, gen_files):
