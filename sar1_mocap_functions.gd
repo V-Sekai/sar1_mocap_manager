@@ -47,8 +47,9 @@ static func create_scene_for_mocap_recording(p_mocap_recording: MocapRecording) 
 	
 	# Setup animation
 	var animation: Animation = Animation.new()
-	
-	assert(animation_player.add_animation("MocapAnimation", animation) == OK)
+	var animation_library : AnimationLibrary = AnimationLibrary.new()
+	animation_library.add_animation("MocapAnimation", animation)
+	assert(animation_player.add_animation_library("", animation_library) == OK)
 	
 	animation.set_name("MocapAnimation")
 	var root_track_id: int = animation.add_track(Animation.TYPE_TRANSFORM)
