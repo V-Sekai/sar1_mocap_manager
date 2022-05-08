@@ -1,5 +1,4 @@
 @tool
-
 class_name MocapRecording extends RefCounted
 
 const mocap_constants_const = preload("sar1_mocap_constants.gd")

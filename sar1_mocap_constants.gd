@@ -1,4 +1,5 @@
 @tool
+class_name MocapConstants
 
 const MOCAP_VERSION = 0
 const MOCAP_DIR = "mocap"

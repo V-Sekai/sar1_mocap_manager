@@ -1,5 +1,6 @@
 @tool
 extends EditorPlugin
+class_name MocapManagerPlugin
 
 var editor_interface: EditorInterface = null
 
@@ -8,7 +9,7 @@ const mcp_importer_const = preload("sar1_mcp_importer.gd")
 var mcp_importer = null
 
 var singleton_table = [
-	{"singleton_name":"MocapManager", "singleton_path":"res://addons/sar1_mocap_manager/sar1_mocap_manager.gd"},
+	#{"singleton_name":"MocapManager", "singleton_path":"res://addons/sar1_mocap_manager/sar1_mocap_manager.gd"},
 ]
 
 func _init():
@@ -23,7 +24,6 @@ func _notification(p_notification: int):
 
 func _get_plugin_name() -> String:
 	return "Sar1MocapManager"
-
 
 func _enter_tree() -> void:
 	editor_interface = get_editor_interface()

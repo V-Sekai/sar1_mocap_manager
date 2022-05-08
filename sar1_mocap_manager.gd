@@ -1,5 +1,6 @@
 @tool
 extends Node
+class_name MocapManager
 
 const mocap_functions_const = preload("sar1_mocap_functions.gd")
 const mocap_constants_const = preload("sar1_mocap_constants.gd")

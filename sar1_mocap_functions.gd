@@ -1,4 +1,5 @@
 @tool
+class_name MocapFunctions
 
 const mocap_constants_const = preload("sar1_mocap_constants.gd")
 
@@ -47,12 +48,21 @@ static func create_scene_for_mocap_recording(p_mocap_recording: MocapRecording) 
 	
 	# Setup animation
 	var animation: Animation = Animation.new()
-	
-	assert(animation_player.add_animation("MocapAnimation", animation) == OK)
+	if animation_player.has_animation_library(""):
+		var animation_library: AnimationLibrary = animation_player.get_animation_library("")
+		animation_library.add_animation("MocapAnimation", animation)
+	else:
+		var animation_library: AnimationLibrary = AnimationLibrary.new()
+		animation_library.add_animation("MocapAnimation", animation)
+		animation_player.add_animation_library("", animation_library)
 	
 	animation.set_name("MocapAnimation")
-	var root_track_id: int = animation.add_track(Animation.TYPE_TRANSFORM)
-	animation.track_set_path(root_track_id, root.get_path_to(root))
+	var root_track_id_position: int = animation.add_track(Animation.TYPE_POSITION_3D)
+	var root_track_id_rotation: int = animation.add_track(Animation.TYPE_ROTATION_3D)
+	#var root_track_id_scale: int = animation.add_track(Animation.TYPE_SCALE_3D)
+	animation.track_set_path(root_track_id_position, root.get_path_to(root))
+	animation.track_set_path(root_track_id_rotation, root.get_path_to(root))
+	#animation.track_set_path(root_track_id_scale, root.get_path_to(root))
 	
 	# Add tracks for tracker data
 	for tracker_point_name in mocap_constants_const.TRACKER_POINT_NAMES:
@@ -61,8 +71,12 @@ static func create_scene_for_mocap_recording(p_mocap_recording: MocapRecording) 
 		root.add_child(tracker, true)
 		tracker.set_owner(mocap_scene)
 		
-		var track_id: int = animation.add_track(Animation.TYPE_TRANSFORM)
-		animation.track_set_path(track_id, root.get_path_to(tracker))
+		var track_id_position: int = animation.add_track(Animation.TYPE_POSITION_3D)
+		var track_id_rotation: int = animation.add_track(Animation.TYPE_ROTATION_3D)
+		#var track_id_scale: int = animation.add_track(Animation.TYPE_SCALE_3D)
+		animation.track_set_path(track_id_position, root.get_path_to(tracker))
+		animation.track_set_path(track_id_rotation, root.get_path_to(tracker))
+		#animation.track_set_path(track_id_scale, root.get_path_to(tracker))
 	
 	# Setup timestep based on mocap data's FPS
 	var timestep: float = 1.0 / p_mocap_recording.fps
@@ -76,10 +90,16 @@ static func create_scene_for_mocap_recording(p_mocap_recording: MocapRecording) 
 		
 		for transform in frame:
 			if current_idx < animation.get_track_count():
-				var _key_idx: int = animation.transform_track_insert_key(current_idx, current_time, transform.origin, transform.basis, Vector3(1.0, 1.0, 1.0))
+				var _pos_key_idx: int = animation.position_track_insert_key(current_idx, current_time, transform.origin)
+				current_idx += 1
+				# Error
+				var quat: Quaternion = transform.basis.orthonormalized().get_rotation_quaternion()
+				var _rot_key_idx: int = animation.rotation_track_insert_key(current_idx, current_time, quat)
+				#current_idx += 1
+				#var _sca_key_idx: int = animation.scale_track_insert_key(current_idx, current_time, Vector3(1.0, 1.0, 1.0))
+				current_idx += 1
 			else:
 				printerr("Animation mocap data track mismatch")
-			current_idx += 1
 		
 		current_time += timestep
 		
