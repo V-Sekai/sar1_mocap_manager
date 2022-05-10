@@ -15,7 +15,7 @@ var recording_enabled = false
 
 # 
 
-func start_recording(p_fps: int) -> MocapRecording:
+static func start_recording(p_fps: int) -> MocapRecording:
 	var mocap_recording: MocapRecording = null
 	var dict: Dictionary = mocap_functions_const._incremental_mocap_file_path({"mocap_directory":"user://" + mocap_constants_const.MOCAP_DIR})
 	if dict["error"] == OK:
