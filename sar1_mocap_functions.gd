@@ -120,7 +120,7 @@ static func create_packed_scene_for_mocap_recording(p_mocap_recording: MocapReco
 static func save_packed_scene_for_mocap_recording_at_path(p_save_path: String, p_mocap_recording: MocapRecording) -> int:
 	var packed_scene: PackedScene = create_packed_scene_for_mocap_recording(p_mocap_recording)
 	if packed_scene:
-		var err: int = ResourceSaver.save(p_save_path, packed_scene)
+		var err: int = ResourceSaver.save(packed_scene, p_save_path)
 		return err
 	
 	return FAILED

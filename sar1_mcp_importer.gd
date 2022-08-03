@@ -44,7 +44,7 @@ func _import(source_file, save_path, options, platform_variants, gen_files) -> i
 		var packed_scene: PackedScene = mocap_functions_const.create_packed_scene_for_mocap_recording(mocap_recording)
 		if packed_scene:
 			var filename: String = save_path + "." + _get_save_extension()
-			ResourceSaver.save(filename, packed_scene)
+			ResourceSaver.save(packed_scene, filename)
 			return OK
 	else:
 		printerr("Could not open mocap file for reading")
