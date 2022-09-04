@@ -66,7 +66,7 @@ static func create_scene_for_mocap_recording(p_mocap_recording: MocapRecording) 
 	
 	# Add tracks for tracker data
 	for tracker_point_name in mocap_constants_const.TRACKER_POINT_NAMES:
-		var tracker: Position3D = Position3D.new()
+		var tracker: Marker3D = Marker3D.new()
 		tracker.set_name(tracker_point_name)
 		root.add_child(tracker, true)
 		tracker.set_owner(mocap_scene)
