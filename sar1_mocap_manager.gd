@@ -58,7 +58,7 @@ func assign_save_settings_funcref(p_instance: Object, p_function: String) -> voi
 	save_settings_callback = Callable(p_instance, p_function)
 	
 func _ready():
-	var directory: Directory = Directory.new()
+	var directory: DirAccess = DirAccess.new()
 	if !directory.dir_exists("user://mocap"):
 		if directory.make_dir_recursive("user://mocap") != OK:
 			printerr("Could not create mocap directory")
