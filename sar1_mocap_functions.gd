@@ -7,7 +7,7 @@ static func _get_mocap_path_and_prefix(p_mocap_directory: String) -> String:
 	return "%s/mocap_" % p_mocap_directory
 
 static func _incremental_mocap_file_path(p_info: Dictionary) -> Dictionary:
-	var file: File = File.new()
+	var file: FileAccess = FileAccess.new()
 	var err: int = OK
 	var path: String = ""
 	
@@ -15,12 +15,11 @@ static func _incremental_mocap_file_path(p_info: Dictionary) -> Dictionary:
 	
 	var mocap_number: int = 0
 	var mocap_path_and_prefix: String = _get_mocap_path_and_prefix(mocap_directory)
-	while(file.open(mocap_path_and_prefix + str(mocap_number).pad_zeros(mocap_constants_const.INCREMENTAL_DIGET_LENGTH) + mocap_constants_const.MOCAP_EXT, File.READ) != ERR_FILE_NOT_FOUND):
-		file.close()
+	file = FileAccess.open(mocap_path_and_prefix + str(mocap_number).pad_zeros(mocap_constants_const.INCREMENTAL_DIGET_LENGTH) + mocap_constants_const.MOCAP_EXT, FileAccess.READ)
+	while file.is_valid():
 		mocap_number += 1
-	
-	file.close()
-	
+		file = FileAccess.open(mocap_path_and_prefix + str(mocap_number).pad_zeros(mocap_constants_const.INCREMENTAL_DIGET_LENGTH) + mocap_constants_const.MOCAP_EXT, FileAccess.READ)
+
 	if(mocap_number <= mocap_constants_const.MAX_INCREMENTAL_FILES):
 		path = mocap_path_and_prefix + str(mocap_number).pad_zeros(mocap_constants_const.INCREMENTAL_DIGET_LENGTH) + mocap_constants_const.MOCAP_EXT
 	else:
