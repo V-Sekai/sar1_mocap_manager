@@ -11,7 +11,7 @@ var set_settings_value_callback: Callable = Callable()
 var get_settings_value_callback: Callable = Callable()
 var save_settings_callback: Callable = Callable()
 
-var recording_enabled = false
+var recording_enabled : bool = false
 
 # 
 
@@ -58,6 +58,7 @@ func assign_save_settings_funcref(p_instance: Object, p_function: String) -> voi
 	save_settings_callback = Callable(p_instance, p_function)
 	
 func _ready():
+	recording_enabled = ProjectSettings.get_setting("mocap_manager/recording_enabled")
 	var directory: DirAccess = DirAccess.open("user://")
 	if !directory.dir_exists("user://mocap"):
 		if directory.make_dir_recursive("user://mocap") != OK:
