@@ -5,35 +5,46 @@ class_name MCPImporter
 const mocap_functions_const = preload("sar1_mocap_functions.gd")
 const mocap_constants_const = preload("sar1_mocap_constants.gd")
 
+
 func _get_importer_name():
 	return "mcp_importer"
-	
+
+
 func _get_import_order() -> int:
 	return 0
+
 
 func _get_visible_name() -> String:
 	return "Mocap Data"
 
+
 func _get_recognized_extensions() -> PackedStringArray:
 	return PackedStringArray(["mcp"])
+
 
 func _get_save_extension() -> String:
 	return "scn"
 
+
 func _get_resource_type() -> String:
 	return "PackedScene"
+
 
 func _get_preset_count() -> int:
 	return 1
 
+
 func _get_preset_name(i) -> String:
 	return "Default"
 
-func _get_import_options(option : String, i : int) -> Array:
+
+func _get_import_options(option: String, i: int) -> Array:
 	return []
-	
+
+
 func _get_priority() -> float:
 	return 1.0
+
 
 func _import(source_file, save_path, options, platform_variants, gen_files) -> int:
 	var mocap_recording = MocapRecording.new(source_file)
@@ -48,5 +59,5 @@ func _import(source_file, save_path, options, platform_variants, gen_files) -> i
 			return OK
 	else:
 		printerr("Could not open mocap file for reading")
-		
+
 	return FAILED
