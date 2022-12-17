@@ -58,6 +58,8 @@ func assign_save_settings_funcref(p_instance: Object, p_function: String) -> voi
 	save_settings_callback = Callable(p_instance, p_function)
 	
 func _ready():
+	if not ProjectSettings.has_setting("mocap_manager/recording_enabled"):
+		ProjectSettings.set_setting("mocap_manager/recording_enabled", false)
 	recording_enabled = ProjectSettings.get_setting("mocap_manager/recording_enabled")
 	var directory: DirAccess = DirAccess.open("user://")
 	if !directory.dir_exists("user://mocap"):
