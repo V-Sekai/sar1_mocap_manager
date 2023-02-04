@@ -9,7 +9,7 @@ static func _get_mocap_path_and_prefix(p_mocap_directory: String) -> String:
 
 
 static func _incremental_mocap_file_path(p_info: Dictionary) -> Dictionary:
-	var file: FileAccess = FileAccess.new()
+	
 	var err: int = OK
 	var path: String = ""
 
@@ -17,7 +17,7 @@ static func _incremental_mocap_file_path(p_info: Dictionary) -> Dictionary:
 
 	var mocap_number: int = 0
 	var mocap_path_and_prefix: String = _get_mocap_path_and_prefix(mocap_directory)
-	file = FileAccess.open(
+	var file: FileAccess = FileAccess.open(
 		(
 			mocap_path_and_prefix
 			+ str(mocap_number).pad_zeros(mocap_constants_const.INCREMENTAL_DIGET_LENGTH)
