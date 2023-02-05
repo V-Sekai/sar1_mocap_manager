@@ -31,7 +31,7 @@ const mocap_constants_const = preload("sar1_mocap_constants.gd")
 # 8 Bytes - quat.z
 # 8 Bytes - quat.w
 
-var file: FileAccess = null
+var file: FileAccess
 var path: String = ""
 
 var version: int = 0
@@ -41,18 +41,17 @@ var frames: Array = []
 
 func _init(p_path: String):
 	path = p_path
-	file = FileAccess.new()
 
 
 func open_file_write() -> int:
-	file = file.open(path, FileAccess.WRITE)
+	file = FileAccess.open(path, FileAccess.WRITE)
 	if file == null:
 		return FAILED
 	return OK
 
 
 func open_file_read() -> int:
-	file = file.open(path, FileAccess.READ)
+	file = FileAccess.open(path, FileAccess.READ)
 	if file == null:
 		return FAILED
 	return OK
