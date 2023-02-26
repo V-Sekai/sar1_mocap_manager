@@ -46,7 +46,7 @@ func _get_priority() -> float:
 	return 1.0
 
 
-func _import(source_file, save_path, options, platform_variants, gen_files) -> int:
+func _import(source_file, save_path, options, platform_variants, gen_files) -> Error:
 	var mocap_recording = MocapRecording.new(source_file)
 	if mocap_recording.open_file_read() == OK:
 		mocap_recording.parse_file()

@@ -3,33 +3,33 @@ class_name MocapRecording extends RefCounted
 
 const mocap_constants_const = preload("sar1_mocap_constants.gd")
 
-# Comically simple interchange binary format for mocap data for recording
-# IK. Will likely be made more flexible and efficent in future revisions
+## Comically simple interchange binary format for mocap data for recording
+## IK. Will likely be made more flexible and efficent in future revisions
 
 ##########
-# Header #
+## Header #
 ##########
-# 4 Bytes - Ident (MCP0)
-# 4 Bytes - Recording FPS
+## 4 Bytes - Ident (MCP0)
+## 4 Bytes - Recording FPS
 
-# The rest of the body is an array of frames
+## The rest of the body is an array of frames
 
-#########
-# Frame #
-#########
-# Number of transforms in frame, followed by respective number of transforms
-# Usually is: root transform, head, left hand, right hand, left foot, right foot, hips
+##########
+## Frame #
+##########
+## Number of transforms in frame, followed by respective number of transforms
+## Usually is: root transform, head, left hand, right hand, left foot, right foot, hips
 
 #############
-# Transform #
+## Transform #
 #############
-# 8 Bytes - origin.x
-# 8 Bytes - origin.y
-# 8 Bytes - origin.z
-# 8 Bytes - quat.x
-# 8 Bytes - quat.y
-# 8 Bytes - quat.z
-# 8 Bytes - quat.w
+## 8 Bytes - origin.x
+## 8 Bytes - origin.y
+## 8 Bytes - origin.z
+## 8 Bytes - quat.x
+## 8 Bytes - quat.y
+## 8 Bytes - quat.z
+## 8 Bytes - quat.w
 
 var file: FileAccess
 var path: String = ""
